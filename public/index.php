@@ -10,7 +10,7 @@ $app = new App\App();
 $app->checkSession();
 
 if ($app->isAuth()) {
-    return $app->redirect('/chat/chat.php');
+    return $app->alert('Already connected', 'warning')->redirect('/chat/chat.php');
 }
 
 ?>

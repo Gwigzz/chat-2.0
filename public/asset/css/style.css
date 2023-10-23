@@ -15,11 +15,54 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .success{
-    color: rgb(0, 196, 0);
+    color: #00c400;
 }
 .danger{
     color: #e60000;
 }
 .warning{
     color: #ff7700;
+}
+
+
+.details-all-users{
+    margin-bottom: 1.4rem;
+}
+.details-all-users summary{
+    cursor: pointer;
+}
+#getAllUsers{
+    max-height: 80px;
+    overflow-y: auto;
+}
+#getAllUsers li {
+    display: inline-block;
+    margin: 0 0.19rem;
+    cursor: pointer;
+    border: 1px solid #b1b1b1;
+    border-radius: 3px;
+    padding: 0.1rem;
+}
+#getAllUsers li:hover{
+    /* text-decoration: 1px underline orange; */
+    border: 1px solid #ff770f;
+
+}
+
+/* chat */
+.container__chat{
+    background-color: orange;
+    max-height: 380px;
+    overflow-y: auto;
+}
+
+/* form */
+#messageContent, #btnSendMessage{
+    width: 100%;
+}
+#messageContent{
+    resize: none;
+}
+#btnSendMessage{
+    cursor: pointer;
 }

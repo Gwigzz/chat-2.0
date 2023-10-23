@@ -43,4 +43,10 @@ class UserModel extends Database
 
         return $request->rowCount() == 1 ? $request->fetch(\PDO::FETCH_OBJ) : null;
     }
+
+
+    public function getAllUsers(): array|false
+    {
+        return $this->getPDO()->query("SELECT id, username, connected FROM {$this->tableUser}")->fetchAll(\PDO::FETCH_OBJ);
+    }
 }

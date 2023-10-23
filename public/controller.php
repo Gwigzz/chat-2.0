@@ -3,6 +3,7 @@
 require_once '../vendor/autoload.php';
 
 $userModel      = new App\Model\UserModel();
+$chatModel      = new App\Model\ChatModel();
 $app            = new App\App();
 
 $app->checkSession();
@@ -36,10 +37,29 @@ if (
 }
 
 
+// get all user
+if (isset($_GET['getAllUsers']) && $app->isAuth()) {
+    $users = $userModel->getAllUsers();
+    echo json_encode($users);
+}
+
+// send message
+if (isset($_POST['message']) && !empty($_POST['message']) && $app->isAuth()) {
+    $message = strip_tags($_POST['message']);
+    $send =  $chatModel->sendMessage($_SESSION['auth']->id, $message);
+    $datas = [
+        'send' => $send,
+        'content' => $message,
+        'userId' => $_SESSION['auth']->id,
+        'username' => $_SESSION['auth']->username,
+    ];
+    echo json_encode($datas);
+}
+
 // logout
 if (isset($_GET['logout'])) {
     $app->disconnect()->alert('Deconnecté')->redirect('/index.php?info=logout');
 }
 
 
-return $app->alert('Error 000', 'danger')->redirect('/index.php');
+// return $app->alert('Error 000', 'danger')->redirect('/index.php');
