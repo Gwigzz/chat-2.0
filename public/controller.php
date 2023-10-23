@@ -41,4 +41,5 @@ if (isset($_GET['logout'])) {
     $app->disconnect()->alert('Deconnecté')->redirect('/index.php?info=logout');
 }
 
-return $app->redirect('/index.php?info=000');
+
+return $app->alert('Error 000', 'danger')->redirect('/index.php');

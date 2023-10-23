@@ -45,6 +45,12 @@ class App
         return $this;
     }
 
+    /**
+     * Send a message
+     * @param string $message
+     * @param string $className = 'success'
+     * 
+     */
     public function alert(string $message, string $className = 'success')
     {
         self::checkSession();

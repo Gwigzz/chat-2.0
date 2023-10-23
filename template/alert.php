@@ -1,7 +1,7 @@
 <?php if (isset($_SESSION['alert'])) : ?>
     <?php foreach ($_SESSION['alert'] as $class => $message) : ?>
 
-        <div class="<?= $class ?>" role="alert">
+        <div class="alert <?= $class ?>" role="alert">
             <p>
                 <?= $message ?>
             </p>

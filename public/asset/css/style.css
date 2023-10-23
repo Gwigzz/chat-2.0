@@ -1,0 +1,25 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Georgia, 'Times New Roman', Times, sans-serif;
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-weight: 300;
+}
+
+.alert{
+    text-align: center;
+}
+
+.success{
+    color: rgb(0, 196, 0);
+}
+.danger{
+    color: #e60000;
+}
+.warning{
+    color: #ff7700;
+}
