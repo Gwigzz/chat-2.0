@@ -4,8 +4,52 @@ namespace App;
 
 class App
 {
-    public static function checkSession()
+    /**
+     * If session not started, session will be started
+     */
+    public static function checkSession(): void
     {
-        var_dump(session_status());
-    } 
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
+
+    /**
+     * Redirect
+     * 
+     * @param string $path
+     */
+    public static function redirect(string $path): never
+    {
+        header("Location: {$path}");
+        exit;
+    }
+
+    /**
+     * Check if user is authenticated
+     */
+    public static function isAuth(): bool
+    {
+        if (isset($_SESSION['auth'])) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Disconnect with "session_unset"
+     */
+    public function disconnect(): self
+    {
+        session_unset();
+        return $this;
+    }
+
+    public function alert(string $message, string $className = 'success')
+    {
+        self::checkSession();
+        $_SESSION["alert"]["$className"] = "$message";
+        return $this;
+       
+    }
 }
