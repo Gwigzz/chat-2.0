@@ -92,6 +92,11 @@
     cursor: pointer;
 }
 
+.anti-spam{
+    border-color: #ff1212eb !important;
+    cursor: no-drop !important;
+}
+
 @media screen and (max-width:700px) {
     .content__chat{
         max-width: initial;

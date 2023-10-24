@@ -11,11 +11,11 @@ $(document).ready(function () {
     //***************************************************************
 
 
-    const timerRefreshMessage                   = 4500; // ms
-    const intervalAntiSpam                      = 1000; // ms
-    let currentAntiSpan                         = 3;    // s
-    const controllerName                        = "/controller.php";
-    var currentMessages, lastIdMessage          = "";
+    const timerRefreshMessage                       = 4500; // ms
+    const intervalAntiSpam                          = 1000; // ms
+    let currentAntiSpan                             = 3;    // s
+    const controllerName                            = "/controller.php";
+    var currentMessages, lastIdMessage              = "";
 
 
     const countCurrentMessage = () => {
@@ -34,28 +34,45 @@ $(document).ready(function () {
         return lastIdMessage;
     }
 
+    const addClassAntiSpam = () => {
+        $('#messageContent').attr('disabled', 'true');
+        $('#messageContent').addClass('anti-spam');
+        $('#btnSendMessage').attr('disabled', 'true');
+        $('#btnSendMessage').addClass('anti-spam');
 
-    const intervalTimerAntiSpam = setInterval(function () {
+    }
+    const removeClassAntiSpam = () => {
+        $('#messageContent').removeClass('anti-spam');
+        $('#messageContent').removeAttr('disabled');
+        $('#btnSendMessage').removeAttr('disabled');
+        $('#btnSendMessage').removeClass('anti-spam');
 
-        $('#uiTimer').text(`${currentAntiSpan}`);
+    }
+    const activeAntiSpam = () => {
+        const intervalTimerAntiSpam = setInterval(function () {
 
-        if (currentAntiSpan > 0) {
+            $('#uiTimer').text(`${currentAntiSpan}`);
 
-            $('#messageContent').css('border-color', 'red');
+            // anti spam
+            if (currentAntiSpan > 0) {
 
-            currentAntiSpan--;
-        } else {
-            clearInterval(intervalTimerAntiSpam);
-            // reset
-            currentAntiSpan = 3;
+                addClassAntiSpam();
+                currentAntiSpan--;
 
-            $('#messageContent').css('border-color', 'initial');
+                // reset
+            } else {
+                clearInterval(intervalTimerAntiSpam);
+                // reset
+                currentAntiSpan = 3;
 
-            console.log('can be send more message....')
-        }
+                removeClassAntiSpam();
 
-    }, intervalAntiSpam);
-    intervalTimerAntiSpam;
+                console.log('can be send more message....')
+            }
+
+        }, intervalAntiSpam);
+    }
+
 
 
     /**
@@ -145,7 +162,9 @@ $(document).ready(function () {
 
             playAudioAlert('alert-send-msg');
 
-            activeAntiSpan();
+            addClassAntiSpam();
+            activeAntiSpam();
+
         }
     }
 
