@@ -48,18 +48,27 @@ if (isset($_POST['message']) && !empty($_POST['message']) && $app->isAuth()) {
     $message = strip_tags($_POST['message']);
     $send =  $chatModel->sendMessage($_SESSION['auth']->id, $message);
     $datas = [
-        'send' => $send,
-        'message' => $message,
-        'userId' => $_SESSION['auth']->id,
-        'username' => $_SESSION['auth']->username,
+        "content" => (object) $send,
     ];
     echo json_encode($datas);
 }
 
 // get all message
-if(isset($_GET['getAllMessages']) && $app->isAuth()){
+if (isset($_GET['getAllMessages']) && $app->isAuth()) {
     $allMessages = $chatModel->getAllMessages();
     echo json_encode($allMessages);
+}
+
+// refresh message (new message)
+if (isset($_GET['dateLastMessage']) && !empty($_GET['dateLastMessage']) && $app->isAuth()) {
+
+    $lastDateMessage = htmlspecialchars($_GET['dateLastMessage']);
+
+    $response = [
+        "lastMessages" => $chatModel->getLastMessagesAfterDate($lastDateMessage),
+    ];
+
+    echo json_encode($response);
 }
 
 // logout

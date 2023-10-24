@@ -1,19 +1,24 @@
 $(document).ready(function () {
 
+    const timeRefreshMessage = 3000;
+    const controllerName = "/controller.php";
     var currentMessages = "";
+    // var staticMessages              = $('#staticMessage').val();
+    var lastDateMessage = "";
+
+
     const countCurrentMessage = () => {
         currentMessages = $('.container__chat .box-chat').length;
         return currentMessages;
     }
 
 
-
     /**
      * Get all users
      */
-    const getAllUsers = () => {
-        $.get(
-            '/controller.php',
+    const getAllUsers = async () => {
+        await $.get(
+            `${controllerName}`,
             'getAllUsers',
             function (users) {
                 if (users) {
@@ -66,22 +71,25 @@ $(document).ready(function () {
     /**
      * Send message
      */
-    const sendMessage = (message) => {
+    const sendMessage = async (message) => {
 
-        $.post(
-            '/controller.php',
+        await $.post(
+            `${controllerName}`,
             `message=${message}`,
             function (response) {
                 if (response) {
-                    if (response.send) {
+                    console.log(response.content);
+                    if (response.content) {
 
                         // add message to chat
-                        templateBoxMessage(response);
+                        // templateBoxMessage(response.content);
 
                         scrollContainerMessageToBottom();
-                        
+
                         currentMessages++
                         $("#currentMessage").text(`${countCurrentMessage()}`);
+
+                        // lastDateMessage = findLastMessageByDate();
 
                     } else {
                         console.error('Erreur pendant l\'envoie du message')
@@ -93,10 +101,15 @@ $(document).ready(function () {
         );
     }
 
+    const findLastMessageByDate = () => {
+        let = lastDateMessage = $('.container__chat .box-chat').last();
+        return $(lastDateMessage).attr('data-last-date');
+    }
 
-    const getAllMessages = () => {
-        $.get(
-            '/controller.php',
+
+    const getAllMessages = async () => {
+        await $.get(
+            `${controllerName}`,
             'getAllMessages',
             function (messages) {
                 if (messages) {
@@ -108,6 +121,10 @@ $(document).ready(function () {
 
 
                     $("#currentMessage").text(`${countCurrentMessage()}`);
+                    // $('#staticMessage').val(`${staticMessages}`);
+
+                    lastDateMessage = findLastMessageByDate();
+
 
                 } else {
                     console.error('Error for ::getAllMessages::');
@@ -121,16 +138,48 @@ $(document).ready(function () {
 
     const templateBoxMessage = (response) => {
         $('.container__chat').append(
-            `<div class="box-chat">
+            `<div class="box-chat ${response.username == USER.username ? 'current-user' : 'other-user'}" data-last-date="${response.dateMessage}">
                     <p>
                         <span class="msg-username">${response.username}</span>: 
                         ${response.message}
-                        <sup><span class="msg-date">${response.dateMessage ? response.dateMessage : 'now'}</span></sup>
+                        <sup>
+                            <span class="msg-date">${response.dateMessage}</span>
+                        </sup>
                     </p>
              </div>`
         );
     }
 
+    // PB : quand on recois des messages le nombres de message en chiffre augmente pas
+    const handleRefreshMessage = () => {
+        $.get(
+            `${controllerName}`,
+            `dateLastMessage=${lastDateMessage}`,
+            function (response) {
+                if (response) {
+                    if (response.lastMessages.length > 0) {
+
+                        $(response.lastMessages).each(function (k, message) {
+                            templateBoxMessage(message);
+                        });
+
+                        scrollContainerMessageToBottom();
+                        lastDateMessage = findLastMessageByDate();
+                        currentMessages = currentMessages + response.lastMessages.length;
+                        $('#currentMessage').text(`${currentMessages}`);
+
+                    }
+
+                } else {
+                    console.error('Error ::handleRefreshMessage::')
+                }
+            }, 'json'
+
+        );
+    }
+    setInterval(() => {
+        handleRefreshMessage();
+    }, timeRefreshMessage);
 
 
     const scrollContainerMessageToBottom = () => {

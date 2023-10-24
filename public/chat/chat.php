@@ -1,14 +1,17 @@
 <?php
 require_once '../../vendor/autoload.php';
 
-$app        = new App\App();
-$chatModel  = new App\Model\ChatModel();
+$app            = new App\App();
+$chatModel      = new App\Model\ChatModel();
 
 $app->checkSession();
 
 if (!$app->isAuth()) {
     return $app->alert('Connexion required', 'warning')->redirect('/index.php');
 }
+
+
+// var_dump($chatModel->getLastMessagesAfterDate('16:24:56 24/10/2023'));
 
 ?>
 
@@ -53,10 +56,11 @@ if (!$app->isAuth()) {
     <!-- alert -->
     <?php require_once '../../template/alert.php' ?>
 
-    <p><span class="success"><?= $_SESSION['auth']->username ?></span></p>
+    <p><span class="success"><?= $_SESSION['auth']->username ?>✅</span></p>
 
     <h1>Bienvenue dans le chat !</h1>
 
+    <!-- Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur explicabo unde obcaecati, at dolorum distinctio et dicta quae vel tempora architecto similique officia quam laborum hic officiis voluptates impedit eos? -->
 
     <div class="content__chat">
 
@@ -72,6 +76,7 @@ if (!$app->isAuth()) {
 
         <!-- chats -->
         <p>Messages: <b><sup>(<span id="currentMessage"></span>)</sup></b> </p>
+        <!-- <input type="text" value="<= count($chatModel->getAllMessages()) ?>" id="staticMessage" /> -->
         <div class="container__chat"></div>
 
 
@@ -79,7 +84,7 @@ if (!$app->isAuth()) {
         <div>
             <form id="formMessage">
                 <div>
-                    <label for="messageContent">Message:</label>
+                    <label for="messageContent">Envoyer un message en tant que <span class="success"><?= $_SESSION['auth']->username ?></span></label>
                 </div>
                 <div>
                     <textarea name="messageContent" id="messageContent" cols="30" rows="6" placeholder="Votre message"></textarea>
