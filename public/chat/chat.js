@@ -2,8 +2,7 @@ $(document).ready(function () {
 
     //***************************************************************
     //           ______ BUG / PROBLEM ______
-    //      2: Si envoie de message en même temps, par moment 
-    //        l'interlocuteur ne reçois pas les mess, obligé de rafraichir la page
+    //      1: si on envoie trop de message le compteur total de message affiche pas le nombre total
 
     //      * Faire en sorte de mettre un timer après envoie de message (éviter les spams et bug)
     //      * Mettre une limitation de text
@@ -66,6 +65,7 @@ $(document).ready(function () {
                 currentAntiSpan = 3;
 
                 removeClassAntiSpam();
+                $('#messageContent').focus();
 
                 console.log('can be send more message....')
             }
@@ -117,7 +117,7 @@ $(document).ready(function () {
                     let li = '';
                     $(users).each(function (key, user) {
                         if (USER.username !== user.username) {
-                            li += `<li title="${user.username}">
+                            li += `<li title="${user.username}" data-connected="${user.connected}">
                                         ${user.username}🔸
                                     </li>`;
                         }

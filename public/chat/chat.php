@@ -14,6 +14,8 @@ if (!$app->isAuth()) {
 // var_dump($chatModel->getLastMessagesAfterDate('16:24:56 24/10/2023'));
 // var_dump($chatModel->removeAllMessages());
 
+// Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur explicabo unde obcaecati, at dolorum distinctio et dicta quae vel tempora architecto similique officia quam laborum hic officiis voluptates impedit eos?
+
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +73,7 @@ if (!$app->isAuth()) {
 
     <h1>Bienvenue dans le chat !</h1>
 
-    <!-- Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur explicabo unde obcaecati, at dolorum distinctio et dicta quae vel tempora architecto similique officia quam laborum hic officiis voluptates impedit eos? -->
+
 
     <div class="content__chat">
 
