@@ -7,7 +7,8 @@ use DB\Database;
 class ChatModel extends Database
 {
 
-    private string $tableChat = "chat";
+    private string $tableChat   = "chat";
+    private string $tableUser   = "user";
 
     public function sendMessage(int $userId, string $message)
     {
@@ -23,6 +24,24 @@ class ChatModel extends Database
         }
         return false;
 
+    }
+
+    public function getAllMessages()
+    {
+        $request = $this->getPDO()->query(
+            "SELECT 
+            {$this->tableChat}.id AS idMessage,
+            {$this->tableChat}.idUsername,
+            {$this->tableChat}.message,
+            DATE_FORMAT({$this->tableChat}.dateMessage, '%H:%i:%s %d/%m/%Y') AS dateMessage,
+            {$this->tableUser}.username
+            FROM {$this->tableChat}
+            INNER JOIN {$this->tableUser} 
+            ON {$this->tableChat}.idUsername = {$this->tableUser}.id
+            ORDER BY {$this->tableChat}.dateMessage ASC
+            ")->fetchAll(\PDO::FETCH_OBJ);
+
+        return $request;
     }
 
 }

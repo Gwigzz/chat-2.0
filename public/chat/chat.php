@@ -2,6 +2,7 @@
 require_once '../../vendor/autoload.php';
 
 $app        = new App\App();
+$chatModel  = new App\Model\ChatModel();
 
 $app->checkSession();
 
@@ -18,6 +19,8 @@ if (!$app->isAuth()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $_SESSION['auth']->username ?> - Chat 2.0 </title>
+
+    <link rel="icon" href="/favicon.ico" />
 
     <link rel="stylesheet" type="text/css" href="../asset/css/style.css" />
 
@@ -38,7 +41,14 @@ if (!$app->isAuth()) {
 
 <body>
 
-    <a href="/controller.php?logout" title="disconnect">se deconnecter</a>
+
+
+    <nav>
+        <ul>
+            <li style="margin-bottom: 0.5rem;"><a href="./chat.php" title="refresh">rafraichir la page</a></li>
+            <li><a href="/controller.php?logout" title="disconnect">se deconnecter</a></li>
+        </ul>
+    </nav>
 
     <!-- alert -->
     <?php require_once '../../template/alert.php' ?>
@@ -48,7 +58,7 @@ if (!$app->isAuth()) {
     <h1>Bienvenue dans le chat !</h1>
 
 
-    <div>
+    <div class="content__chat">
 
         <div>
             <details class="details-all-users">
@@ -61,31 +71,8 @@ if (!$app->isAuth()) {
 
 
         <!-- chats -->
-        <div class="container__chat">
-            <div class="box-chat">
-                <p>Un message Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio dignissimos id incidunt saepe at ex obcaecati, </p>
-            </div>
-            <div class="box-chat">
-                <p>Un message Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio dignissimos id incidunt saepe at ex obcaecati,sit amet consectetur adipisicing elit. Optio dignissimos id incidunt saepe at ex obcaecati, </p>
-            </div>
-            <div class="box-chat">
-                <p>Un message Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio dignissimos id incidunt saepe at ex obcaecati, </p>
-            </div>
-            <div class="box-chat">
-                <p>Un message Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio dignissimos id incidunt saepe at ex obcaecati,sit amet consectetur adipisicing elit. Optio dignissimos id incidunt saepe at ex obcaecati, </p>
-            </div>
-            <div class="box-chat">
-                <p>Un message Loremcing elit. Optio dignissimos id incidunt saepe at ex obcaecati,sit amet consectetur adipisicing elit. Optio dignissimos id incidunt saepe at ex obcaecati, </p>
-            </div>
-            <div class="box-chat">
-                <p>Un message Loremcing elit. Optio dignissimos id incidunt saepe at ex obcaecati,sit amet consectetur adipisicing elit. Optio dignissimos id incidunt saepe at ex obcaecati,
-                    Loremcing elit. Optio dignissimos id incidunt saepe at ex obcaecati,sit amet consectetur adipisicing elit. Optio dignissimos id incidunt saepe at ex obcaecati, </p>
-            </div>
-            <div class="box-chat">
-                <p>Un message Loremcing elit. Optio dignissimos id incidunt saepe at ex obcaecati,sit amet consectetur adipisicing elit. Optio dignissimos id incidunt saepe at ex obcaecati,
-                    Loremcing elit. Optio dignissimos id incidunt saepe at ex obcaecati,sit amet consectetur adipisicing elit. Optio dignissimos id incidunt saepe at ex obcaecati,Loremcing elit. Optio dignissimos id incidunt saepe at ex obcaecati,sit amet consectetur adipisicing elit. Optio dignissimos id incidunt saepe at ex obcaecati, </p>
-            </div>
-        </div>
+        <p>Messages: <b><sup>(<span id="currentMessage"></span>)</sup></b> </p>
+        <div class="container__chat"></div>
 
 
         <!-- form chat -->

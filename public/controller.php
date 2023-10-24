@@ -2,9 +2,9 @@
 
 require_once '../vendor/autoload.php';
 
-$userModel      = new App\Model\UserModel();
-$chatModel      = new App\Model\ChatModel();
-$app            = new App\App();
+$userModel          = new App\Model\UserModel();
+$chatModel          = new App\Model\ChatModel();
+$app                = new App\App();
 
 $app->checkSession();
 
@@ -49,11 +49,17 @@ if (isset($_POST['message']) && !empty($_POST['message']) && $app->isAuth()) {
     $send =  $chatModel->sendMessage($_SESSION['auth']->id, $message);
     $datas = [
         'send' => $send,
-        'content' => $message,
+        'message' => $message,
         'userId' => $_SESSION['auth']->id,
         'username' => $_SESSION['auth']->username,
     ];
     echo json_encode($datas);
+}
+
+// get all message
+if(isset($_GET['getAllMessages']) && $app->isAuth()){
+    $allMessages = $chatModel->getAllMessages();
+    echo json_encode($allMessages);
 }
 
 // logout

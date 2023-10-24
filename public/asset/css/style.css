@@ -24,6 +24,11 @@ h1,h2,h3,h4,h5,h6{
     color: #ff7700;
 }
 
+.content__chat{
+    margin: 0 auto;
+    max-width: 75%;
+
+}
 
 .details-all-users{
     margin-bottom: 1.4rem;
@@ -37,7 +42,7 @@ h1,h2,h3,h4,h5,h6{
 }
 #getAllUsers li {
     display: inline-block;
-    margin: 0 0.19rem;
+    margin:0.15rem;
     cursor: pointer;
     border: 1px solid #b1b1b1;
     border-radius: 3px;
@@ -51,9 +56,20 @@ h1,h2,h3,h4,h5,h6{
 
 /* chat */
 .container__chat{
-    background-color: orange;
+    background-color: #f5f5f5;
     max-height: 380px;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    margin-bottom: 2rem;
     overflow-y: auto;
+}
+
+.msg-date{
+    font-size: 9px;
+    font-family: Courier,sans-serif;
+}
+.msg-username{
+    font-weight: bold;
 }
 
 /* form */
@@ -65,4 +81,10 @@ h1,h2,h3,h4,h5,h6{
 }
 #btnSendMessage{
     cursor: pointer;
+}
+
+@media screen and (max-width:700px) {
+    .content__chat{
+        max-width: initial;
+    }
 }

@@ -1,5 +1,12 @@
 $(document).ready(function () {
 
+    var currentMessages = "";
+    const countCurrentMessage = () => {
+        currentMessages = $('.container__chat .box-chat').length;
+        return currentMessages;
+    }
+
+
 
     /**
      * Get all users
@@ -14,7 +21,7 @@ $(document).ready(function () {
                     $(users).each(function (key, user) {
                         if (USER.username !== user.username) {
                             li += `<li title="${user.username}">
-                                        ${user.username}
+                                        ${user.username}🔸
                                     </li>`;
                         }
                     });
@@ -33,35 +40,28 @@ $(document).ready(function () {
      * button Send message
      */
     $('#btnSendMessage').on('click', function () {
-
-        let message = $('#messageContent').val();
-
-        if (!!message && message != " ") {
-            sendMessage(message);
-        }
-
-
-        // clear txt
-        $('#messageContent').val('');
-        // refocus
-        $('#messageContent').focus();
+        handleMessage();
     });
 
     // press enter and send the message
     $(window).on('keyup', function (e) {
         if (e.key == "Enter") {
-            let message = $('#messageContent').val();
-
-            if (!!message && message != " ") {
-                sendMessage(message);
-            }
-
-            // clear txt
-            $('#messageContent').val('');
-            // refocus
-            $('#messageContent').focus();
+            handleMessage();
         }
     });
+
+    const handleMessage = () => {
+        let message = $('#messageContent').val();
+
+        if (!!message & message != " " & message.length > 3) {
+            sendMessage(message);
+        }
+
+        // clear txt
+        $('#messageContent').val('');
+        // refocus
+        $('#messageContent').focus();
+    }
 
     /**
      * Send message
@@ -75,22 +75,16 @@ $(document).ready(function () {
                 if (response) {
                     if (response.send) {
 
-                        console.log('Message envoyé');
-                        console.log(response);
-
                         // add message to chat
-                        $('.container__chat').append(
-                            `<div class="box-chat">
-                                <p>${response.username}: ${response.content}</p>
-                             </div>`
-                        );
-
+                        templateBoxMessage(response);
 
                         scrollContainerMessageToBottom();
+                        
+                        currentMessages++
+                        $("#currentMessage").text(`${countCurrentMessage()}`);
 
                     } else {
                         console.error('Erreur pendant l\'envoie du message')
-
                     }
                 } else {
                     console.error('Error ::sendMessage::')
@@ -100,6 +94,42 @@ $(document).ready(function () {
     }
 
 
+    const getAllMessages = () => {
+        $.get(
+            '/controller.php',
+            'getAllMessages',
+            function (messages) {
+                if (messages) {
+                    $(messages).each(function (key, message) {
+                        templateBoxMessage(message);
+                    });
+
+                    scrollContainerMessageToBottom();
+
+
+                    $("#currentMessage").text(`${countCurrentMessage()}`);
+
+                } else {
+                    console.error('Error for ::getAllMessages::');
+                }
+            }, 'json'
+        );
+
+    }
+    getAllMessages();
+
+
+    const templateBoxMessage = (response) => {
+        $('.container__chat').append(
+            `<div class="box-chat">
+                    <p>
+                        <span class="msg-username">${response.username}</span>: 
+                        ${response.message}
+                        <sup><span class="msg-date">${response.dateMessage ? response.dateMessage : 'now'}</span></sup>
+                    </p>
+             </div>`
+        );
+    }
 
 
 
