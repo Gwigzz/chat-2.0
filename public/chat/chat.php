@@ -38,6 +38,8 @@ if (!$app->isAuth()) {
 
     <script src="../asset/js/jquery-3.7.1.min.js" defer></script>
     <script src="../asset/js/chat-2.0.js" defer></script>
+    <script src="../asset/js/script.js" defer></script>
+
 
 
 </head>

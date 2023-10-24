@@ -14,9 +14,23 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .alert{
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: #ffffff52;
+    max-width: 450px;
+    margin: 0 auto;
+    border-radius: 3px;
+    padding: 0.1rem 0.4rem;
 }
-
+.alert p {
+    margin: 0;
+}
+#btn-close-alert{
+    cursor: pointer;
+    /* border: none; */
+}
 .success{
     color: #00c400;
 }
@@ -103,7 +117,7 @@ h1,h2,h3,h4,h5,h6{
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     position: absolute;
     top: 2px;
-    right: 1px;
+    right: 15px;
 }
 .msg-username{
     font-weight: bold;

@@ -73,7 +73,7 @@ if (isset($_GET['dateLastMessage']) && !empty($_GET['dateLastMessage']) && $app-
 
 // logout
 if (isset($_GET['logout'])) {
-    $app->disconnect()->alert('Deconnecté')->redirect('/index.php?info=logout');
+    $app->disconnect()->alert('Deconnecté')->redirect('/index.php');
 }
 
 

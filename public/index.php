@@ -28,6 +28,8 @@ if ($app->isAuth()) {
 
     <link rel="stylesheet" type="text/css" href="./asset/css/style.css" />
 
+    <script src="./asset/js/script.js" defer></script>
+
 </head>
 
 <body>
@@ -39,11 +41,11 @@ if ($app->isAuth()) {
         <form action="./controller.php" method="POST">
             <div>
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="username" />
+                <input type="text" id="username" name="username" placeholder="username" required />
             </div>
             <div>
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="password" />
+                <input type="password" id="password" name="password" placeholder="password" required />
             </div>
             <button type="submit">Connexion</button>
         </form>
