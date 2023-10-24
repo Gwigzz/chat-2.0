@@ -27,6 +27,9 @@ if (!$app->isAuth()) {
 
     <link rel="stylesheet" type="text/css" href="../asset/css/style.css" />
 
+    <link rel="stylesheet" type="text/css" href="./chat.css" />
+
+
     <script>
         /**
          * User
@@ -37,7 +40,7 @@ if (!$app->isAuth()) {
     </script>
 
     <script src="../asset/js/jquery-3.7.1.min.js" defer></script>
-    <script src="../asset/js/chat-2.0.js" defer></script>
+    <script src="./chat.js" defer></script>
     <script src="../asset/js/script.js" defer></script>
 
 
@@ -58,7 +61,7 @@ if (!$app->isAuth()) {
     <!-- alert -->
     <?php require_once '../../template/alert.php' ?>
 
-    <p><span class="success"><?= $_SESSION['auth']->username ?>✅</span></p>
+    <!-- <p><span class="success"><= $_SESSION['auth']->username ?>✅</span></p> -->
 
     <h1>Bienvenue dans le chat !</h1>
 
@@ -68,7 +71,7 @@ if (!$app->isAuth()) {
 
         <div>
             <details class="details-all-users">
-                <summary>Utilisateur(e)s</summary>
+                <summary>Utilisateur(e)s <span><sup>(<b id="spanTotalUsers"></b>)</sup></span></summary>
                 <!-- js users -->
                 <ul id="getAllUsers"></ul>
             </details>

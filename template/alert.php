@@ -5,7 +5,7 @@
             <p>
                 <?= $message ?>
             </p>
-            <button type="button" id="btn-close-alert" title="close">❌</button>
+            <button type="button" id="btn-close-alert" title="close">✕</button>
         </div>
 
     <?php endforeach; ?>

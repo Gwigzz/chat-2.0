@@ -1,10 +1,8 @@
 $(document).ready(function () {
 
-    const timeRefreshMessage = 3000;
-    const controllerName = "/controller.php";
-    var currentMessages = "";
-    // var staticMessages              = $('#staticMessage').val();
-    var lastDateMessage = "";
+    const timeRefreshMessage                    = 3000;
+    const controllerName                        = "/controller.php";
+    var currentMessages, lastDateMessage        = "";
 
 
     const countCurrentMessage = () => {
@@ -30,6 +28,8 @@ $(document).ready(function () {
                                     </li>`;
                         }
                     });
+
+                    $('#spanTotalUsers').text(`${users.length}`);
 
                     $('#getAllUsers').append(`${li}`);
                 } else {
@@ -81,15 +81,10 @@ $(document).ready(function () {
                     console.log(response.content);
                     if (response.content) {
 
-                        // add message to chat
-                        // templateBoxMessage(response.content);
-
-                        scrollContainerMessageToBottom();
-
                         currentMessages++
                         $("#currentMessage").text(`${countCurrentMessage()}`);
 
-                        // lastDateMessage = findLastMessageByDate();
+                        scrollContainerMessageToBottom();
 
                     } else {
                         console.error('Erreur pendant l\'envoie du message')
@@ -101,8 +96,10 @@ $(document).ready(function () {
         );
     }
 
-    const findLastMessageByDate = () => {
+    const findLastDateMessage = () => {
         let = lastDateMessage = $('.container__chat .box-chat').last();
+        // check if 0 messages
+        // return !lastDateMessage ? $(lastDateMessage).attr('data-last-date') : null;
         return $(lastDateMessage).attr('data-last-date');
     }
 
@@ -117,14 +114,11 @@ $(document).ready(function () {
                         templateBoxMessage(message);
                     });
 
-                    scrollContainerMessageToBottom();
-
-
                     $("#currentMessage").text(`${countCurrentMessage()}`);
-                    // $('#staticMessage').val(`${staticMessages}`);
 
-                    lastDateMessage = findLastMessageByDate();
+                    lastDateMessage = findLastDateMessage();
 
+                    scrollContainerMessageToBottom();
 
                 } else {
                     console.error('Error for ::getAllMessages::');
@@ -150,7 +144,6 @@ $(document).ready(function () {
         );
     }
 
-    // PB : quand on recois des messages le nombres de message en chiffre augmente pas
     const handleRefreshMessage = () => {
         $.get(
             `${controllerName}`,
@@ -163,10 +156,11 @@ $(document).ready(function () {
                             templateBoxMessage(message);
                         });
 
-                        scrollContainerMessageToBottom();
-                        lastDateMessage = findLastMessageByDate();
+                        lastDateMessage = findLastDateMessage();
                         currentMessages = currentMessages + response.lastMessages.length;
                         $('#currentMessage').text(`${currentMessages}`);
+
+                        scrollContainerMessageToBottom();
 
                     }
 
