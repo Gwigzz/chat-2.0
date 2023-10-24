@@ -2,14 +2,20 @@ $(document).ready(function () {
 
     //***************************************************************
     //           ______ BUG / PROBLEM ______
-    //      1: nombre total de messages bug
-    //      2: Si envoie de message en même temps, les message qui ont la même date (m,s..) ne sont pas affiché en temps réel
+    //      2: Si envoie de message en même temps, par moment 
+    //        l'interlocuteur ne reçois pas les mess, obligé de rafraichir la page
+
+    //      * Faire en sorte de mettre un timer après envoie de message (éviter les spams et bug)
+    //      * Mettre une limitation de text
+    //      * Pouvoir permettre à l'utilisateur de supprimer ses messages
     //***************************************************************
 
 
-    const timeRefreshMessage = 4500;
-    const controllerName = "/controller.php";
-    var currentMessages, lastDateMessage = "";
+    const timerRefreshMessage                   = 4500; // ms
+    const intervalAntiSpam                      = 1000; // ms
+    let currentAntiSpan                         = 3;    // s
+    const controllerName                        = "/controller.php";
+    var currentMessages, lastIdMessage          = "";
 
 
     const countCurrentMessage = () => {
@@ -17,16 +23,40 @@ $(document).ready(function () {
         return currentMessages;
     }
 
-    const findLastDateMessage = () => {
-        let = lastDateMessage = $('.container__chat .box-chat').last();
-        return $(lastDateMessage).attr('data-date');
-    }
-
     const scrollContainerMessageToBottom = () => {
         let $container = $('.container__chat');
         let scrollHeight = $container[0].scrollHeight;
         $container.animate({ scrollTop: scrollHeight }, 'slow');
     }
+
+    const findLastIdMessage = () => {
+        let lastIdMessage = $('.container__chat .box-chat').last().attr('data-id-message');
+        return lastIdMessage;
+    }
+
+
+    const intervalTimerAntiSpam = setInterval(function () {
+
+        $('#uiTimer').text(`${currentAntiSpan}`);
+
+        if (currentAntiSpan > 0) {
+
+            $('#messageContent').css('border-color', 'red');
+
+            currentAntiSpan--;
+        } else {
+            clearInterval(intervalTimerAntiSpam);
+            // reset
+            currentAntiSpan = 3;
+
+            $('#messageContent').css('border-color', 'initial');
+
+            console.log('can be send more message....')
+        }
+
+    }, intervalAntiSpam);
+    intervalTimerAntiSpam;
+
 
     /**
      * Play audio alert
@@ -45,10 +75,10 @@ $(document).ready(function () {
     const templateBoxMessage = async (response) => {
         await $('.container__chat').append(
             `<div class="box-chat ${response.username == USER.username ? 'current-user' : 'other-user'}"
-                         data-date="${response.dateMessage}">
+                         data-date="${response.dateMessage}" data-id-message="${response.idMessage}">
                     <p>
                         <span class="msg-username">${response.username}</span>: 
-                        ${response.message}
+                        ${response.message} ✓
                         <sup>
                             <span class="msg-date">${response.dateMessage}</span>
                         </sup>
@@ -114,6 +144,8 @@ $(document).ready(function () {
             $('#messageContent').focus();
 
             playAudioAlert('alert-send-msg');
+
+            activeAntiSpan();
         }
     }
 
@@ -131,8 +163,7 @@ $(document).ready(function () {
 
                     $("#currentMessage").text(`${countCurrentMessage()}`);
 
-                    lastDateMessage = findLastDateMessage();
-
+                    lastIdMessage = findLastIdMessage();
                     scrollContainerMessageToBottom();
 
                 } else {
@@ -156,12 +187,12 @@ $(document).ready(function () {
                 if (response) {
                     if (response.content) {
 
-                        // currentMessages++
-                        $("#currentMessage").text(`${countCurrentMessage()}`);
-
                         templateBoxMessage(response.content);
-
+                        $("#currentMessage").text(`${countCurrentMessage()}`);
                         scrollContainerMessageToBottom();
+
+                        lastIdMessage = findLastIdMessage();
+
 
                     } else {
                         console.error('Erreur pendant l\'envoie du message')
@@ -173,36 +204,26 @@ $(document).ready(function () {
         );
     }
 
-
+    // with id last message
     const handleRefreshMessage = () => {
         $.get(
             `${controllerName}`,
-            `dateLastMessage=${lastDateMessage}`,
+            `requestLastIdMessage=${lastIdMessage}`,
             function (response) {
                 if (response) {
 
                     if (response.lastMessages.length > 0) {
 
-                        lastDateMessage = findLastDateMessage();
-
                         $(response.lastMessages).each(function (k, message) {
-                            if (lastDateMessage != message.dateMessage) {
-
+                            if (lastIdMessage != message.idMessage) {
                                 templateBoxMessage(message);
-
-                                currentMessages = currentMessages + response.lastMessages.length;
-
-
                                 playAudioAlert("alert-receive-msg");
                             }
                         });
 
-                        // lastDateMessage = findLastDateMessage();
-                        // currentMessages = currentMessages + response.lastMessages.length;
-                        $('#currentMessage').text(`${currentMessages}`);
-
+                        lastIdMessage = findLastIdMessage();
+                        $("#currentMessage").text(`${countCurrentMessage()}`);
                         scrollContainerMessageToBottom();
-
                     }
 
                 } else {
@@ -212,9 +233,10 @@ $(document).ready(function () {
 
         );
     }
+
     setInterval(() => {
         handleRefreshMessage();
-    }, timeRefreshMessage);
+    }, timerRefreshMessage);
 
 
 

@@ -92,4 +92,34 @@ class ChatModel extends Database
 
         return $request->fetchAll(\PDO::FETCH_OBJ);
     }
+
+    public function getMessagesAfterId(int $messageId)
+    {
+        $request = $this->getPDO()->prepare(
+            "SELECT 
+        {$this->tableChat}.id AS idMessage,
+        {$this->tableChat}.idUsername,
+        {$this->tableChat}.message,
+        DATE_FORMAT({$this->tableChat}.dateMessage, '%H:%i:%s %d/%m/%Y') AS dateMessage,
+        {$this->tableUser}.username
+        FROM {$this->tableChat}
+        INNER JOIN {$this->tableUser} 
+        ON {$this->tableChat}.idUsername = {$this->tableUser}.id
+        WHERE {$this->tableChat}.id > :messageId
+        ORDER BY idMessage ASC"
+        );
+
+        $request->bindParam(':messageId', $messageId, \PDO::PARAM_INT);
+        $request->execute();
+
+        return $request->fetchAll(\PDO::FETCH_OBJ);
+    }
+
+
+    public function removeAllMessages()
+    {
+        $request = $this->getPDO()->query("DELETE FROM {$this->tableChat}")->execute();
+
+        return $request;
+    }
 }

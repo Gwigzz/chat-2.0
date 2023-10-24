@@ -60,12 +60,12 @@ if (isset($_GET['getAllMessages']) && $app->isAuth()) {
 }
 
 // refresh message (new message)
-if (isset($_GET['dateLastMessage']) && !empty($_GET['dateLastMessage']) && $app->isAuth()) {
+if (isset($_GET['requestLastIdMessage']) && !empty($_GET['requestLastIdMessage']) && $app->isAuth()) {
 
-    $lastDateMessage = htmlspecialchars($_GET['dateLastMessage']);
+    $lastDateMessage = htmlspecialchars($_GET['requestLastIdMessage']);
 
     $response = [
-        "lastMessages" => $chatModel->getLastMessagesAfterDate($lastDateMessage),
+        "lastMessages" => $chatModel->getMessagesAfterId($lastDateMessage),
     ];
 
     echo json_encode($response);

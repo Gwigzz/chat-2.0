@@ -12,6 +12,7 @@ if (!$app->isAuth()) {
 
 
 // var_dump($chatModel->getLastMessagesAfterDate('16:24:56 24/10/2023'));
+// var_dump($chatModel->removeAllMessages());
 
 ?>
 
@@ -35,7 +36,8 @@ if (!$app->isAuth()) {
          * User
          */
         const USER = {
-            username: "<?= $_SESSION['auth']->username ?>"
+            username: "<?= $_SESSION['auth']->username ?>",
+            id: Number("<?= $_SESSION['auth']->id ?>")
         };
     </script>
 
@@ -53,8 +55,12 @@ if (!$app->isAuth()) {
 
     <nav>
         <ul>
-            <li style="margin-bottom: 0.5rem;"><a href="./chat.php" title="refresh">rafraichir la page</a></li>
-            <li><a href="/controller.php?logout" title="disconnect">se deconnecter</a></li>
+            <li style="margin-bottom: 0.5rem;">
+                <a href="./chat.php" title="refresh">♻rafraichir la page</a>
+            </li>
+            <li>
+                <a href="/controller.php?logout" title="disconnect">⛔Deconnexion</a>
+            </li>
         </ul>
     </nav>
 
@@ -87,15 +93,21 @@ if (!$app->isAuth()) {
 
         <!-- form chat -->
         <div>
+            
             <form id="formMessage">
                 <div>
-                    <label for="messageContent">Envoyer un message en tant que <span class="success"><?= $_SESSION['auth']->username ?></span></label>
+                    <label for="messageContent">Envoyer un message en tant que 
+                        <span class="success"><?= $_SESSION['auth']->username ?></span>
+                    </label>
                 </div>
                 <div>
                     <textarea name="messageContent" id="messageContent" cols="30" rows="6" placeholder="Votre message"></textarea>
                 </div>
+
+                <span id="uiTimer">0</span>
+
                 <button type="button" id="btnSendMessage" title="Envoyer le message">
-                    Envoyer le message
+                📩 Envoyer le message
                 </button>
             </form>
         </div>
