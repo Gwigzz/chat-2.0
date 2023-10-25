@@ -115,11 +115,15 @@ class ChatModel extends Database
         return $request->fetchAll(\PDO::FETCH_OBJ);
     }
 
-
-    public function removeAllMessages()
+    /**
+     * Delete all message into table "chat"
+     */
+    public function deleteAllMessage($value = false)
     {
-        $request = $this->getPDO()->query("DELETE FROM {$this->tableChat}")->execute();
-
-        return $request;
+        if ($value == true) {
+            $request = $this->getPDO()->query("DELETE FROM {$this->tableChat}")->execute();
+            return $request;
+        }
+        return false;
     }
 }

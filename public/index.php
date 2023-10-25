@@ -27,6 +27,8 @@ if ($app->isAuth()) {
     <title>Login</title>
 
     <link rel="stylesheet" type="text/css" href="./asset/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="./asset/css/login.css" />
+
 
     <script src="./asset/js/script.js" defer></script>
 
@@ -34,10 +36,12 @@ if ($app->isAuth()) {
 
 <body>
 
+    <h1 style="text-align:center;">Connexion</h1>
+
     <!-- alert -->
     <?php require_once '../template/alert.php' ?>
 
-    <div>
+    <div class="box-login">
         <form action="./controller.php" method="POST">
             <div>
                 <label for="username">Username</label>
@@ -47,7 +51,8 @@ if ($app->isAuth()) {
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" placeholder="password" required />
             </div>
-            <button type="submit">Connexion</button>
+
+            <button type="submit" class="btn-submit" title="connexion">se connecter</button>
         </form>
     </div>
 

@@ -7,3 +7,6 @@
 
 ### Installation
 > composer install
+
+### Run server
+- bin/server.bat

@@ -1,0 +1,31 @@
+.box-login{
+    /* background-color: #fff; */
+    max-width: 280px;
+    padding: 1.4rem 0.8rem;
+    border-radius: 4px;
+    margin: 10% 50% 0 8%;
+    box-shadow: 4px 4px 20px -4px #adadad;
+}
+
+#username, #password{
+    width: 100%;
+    padding: 0.4rem 0.2rem;
+    margin-bottom: 0.6rem;
+}
+
+label[for="username"], label[for="password"]{
+    font-weight: bold;
+}
+
+.btn-submit{
+    width: 100%;
+    cursor: pointer;
+    margin-top: 1.3rem;
+    padding: 0.4rem;
+}
+
+@media screen and (max-width:630px) {
+    .box-login{
+        margin: 4.98rem auto 0 auto;
+    }
+}
