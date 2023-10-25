@@ -1,9 +1,14 @@
-# Chat 
+# Simple chat
+- A very simple instant chat system with PHP JS and JQuery
 - Version : 2.0
 
-## Librairies
+### Librairies
 - Jquery 3.7.1
+
+### Dependencies
+- PHP >= 8.0
 - composer
+- MySQL | MariaDB
 
 ### Installation
 > composer install
@@ -12,7 +17,7 @@
 ### Run server
 - bin/server.bat
 
-### Information
+### Informations
 ```php
 
 // Add a user into DB
@@ -25,3 +30,13 @@ $chatModel->deleteAllMessage(true);
 
 ```
 - Parameters of DB into "db/Database.php"
+
+
+## Preview
+
+### Login
+![Search](doc/screen/login.png)
+
+### Chat
+![Search](doc/screen/chat.png)
+

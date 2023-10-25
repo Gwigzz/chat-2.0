@@ -71,7 +71,7 @@ if (!$app->isAuth()) {
 
     <!-- <p><span class="success"><= $_SESSION['auth']->username ?>✅</span></p> -->
 
-    <h1>Bienvenue dans le chat !</h1>
+    <!-- <h1>Bienvenue dans le chat !</h1> -->
 
 
 
