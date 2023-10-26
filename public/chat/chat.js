@@ -4,19 +4,23 @@ $(document).ready(function () {
     //           ______ BUG / PROBLEM ______
     //      1: si on envoie trop de message le compteur total de message affiche pas le nombre total
     //
+    //      * Mettre un icon activer/désactiver le son
     //      * Mettre une limitation de text
     //      * Pouvoir permettre à l'utilisateur de supprimer ses messages
     //***************************************************************
 
 
-    const timerRefreshMessage                       = 4500; // ms
-    
-    const intervalAntiSpam                          = 1000; // ms
-    let currentAntiSpam                             = 3;    // s
-    const enabledAntiSpam                           = false;
+    const timerRefreshMessage       = 4500; // ms
 
-    const controllerName                            = "/controller.php";
-    var currentMessages, lastIdMessage              = "";
+    const intervalAntiSpam          = 1000; // ms
+    let currentAntiSpam             = 3;    // s
+    const enabledAntiSpam           = false;
+    
+    const intervalRefrashAllUsers   = 15000; // ms
+
+    const controllerName            = "/controller.php";
+    var currentMessages             = "";
+    var lastIdMessage               = "";
 
 
     const countCurrentMessage = () => {
@@ -111,6 +115,8 @@ $(document).ready(function () {
      * Get all users
      */
     const getAllUsers = async () => {
+        $('#getAllUsers').text('');
+
         await $.get(
             `${controllerName}`,
             'getAllUsers',
@@ -120,7 +126,7 @@ $(document).ready(function () {
                     $(users).each(function (key, user) {
                         if (USER.username !== user.username) {
                             li += `<li title="${user.username}" data-connected="${user.connected}">
-                                        ${user.username}🔸
+                                        ${user.username} <span>${!user.connected ? '🔸': '🔹' }</span>
                                     </li>`;
                         }
                     });
@@ -135,6 +141,9 @@ $(document).ready(function () {
         );
     }
     getAllUsers();
+    setInterval( function() {
+        getAllUsers();
+    }, intervalRefrashAllUsers )
 
 
     /**
@@ -164,11 +173,11 @@ $(document).ready(function () {
 
             playAudioAlert('alert-send-msg');
 
-            if(!!enabledAntiSpam){
+            if (!!enabledAntiSpam) {
                 addClassAntiSpam();
                 activeAntiSpam();
             }
-           
+
 
         }
     }
@@ -262,8 +271,56 @@ $(document).ready(function () {
         handleRefreshMessage();
     }, timerRefreshMessage);
 
-
-
     scrollContainerMessageToBottom();
 
+
+
+
+    /**
+     * Check if user close browser 
+     * 
+     * (Not really working for the moment...)
+     */
+    const checkUserOutBrowser = () => {
+
+        let validNavigation = false;
+
+        // Attach the event keypress to exclude the F5 refresh (includes normal refresh)
+        $(document).bind('keypress', function (e) {
+            if (e.keyCode == 116) {
+                validNavigation = true;
+            }
+        });
+
+        // Attach the event click for all links in the page
+        $("a").bind("click", function () {
+            validNavigation = true;
+        });
+
+        // Attach the event submit for all forms in the page
+        $("form").bind("submit", function () {
+            validNavigation = true;
+        });
+
+        // Attach the event click for all inputs in the page
+        $("input[type=submit]").bind("click", function () {
+            validNavigation = true;
+        });
+
+        window.onbeforeunload = function (e) {
+            if (!validNavigation) {
+                // e.preventDefault();
+                // e.returnValue = '';
+                console.log(e, validNavigation);
+                // return;
+                // ------->  code comes here
+            }
+        };
+    }
+    checkUserOutBrowser();
+
+
 });
+
+
+

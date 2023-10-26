@@ -1,5 +1,5 @@
 # Simple chat
-- A very simple instant chat system with PHP JS and JQuery
+- A very simple instant chat system with SQL, PHP, JS and JQuery
 - Version : 2.0
 
 ### Librairies

@@ -23,7 +23,10 @@ if (
         // check if password match
         if (password_verify($plainPassword, $user->password)) {
 
-            // log user
+            // status "connected"
+            $userModel->userOnline($user->id);
+
+            // session user
             $_SESSION['auth'] = (object) [
                 'id' => $user->id,
                 'username' => $user->username,
@@ -72,9 +75,10 @@ if (isset($_GET['requestLastIdMessage']) && !empty($_GET['requestLastIdMessage']
 }
 
 // logout
-if (isset($_GET['logout'])) {
+if (isset($_GET['logout']) && $app->isAuth()) {
+
+    // set status "connected" to offline
+    $userModel->userOffline($_SESSION['auth']->id);
+    // disconnet
     $app->disconnect()->alert('Deconnecté')->redirect('/index.php');
 }
-
-
-// return $app->alert('Error 000', 'danger')->redirect('/index.php');

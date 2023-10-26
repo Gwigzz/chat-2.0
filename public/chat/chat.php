@@ -3,6 +3,7 @@ require_once '../../vendor/autoload.php';
 
 $app            = new App\App();
 $chatModel      = new App\Model\ChatModel();
+$userModel      = new App\Model\UserModel();
 
 $app->checkSession();
 
@@ -10,6 +11,7 @@ if (!$app->isAuth()) {
     return $app->alert('Connexion required', 'warning')->redirect('/index.php');
 }
 
+// var_dump($userModel->checkUsersOnline());
 
 // var_dump($chatModel->getLastMessagesAfterDate('16:24:56 24/10/2023'));
 // var_dump($chatModel->deleteAllMessage(true));
@@ -57,11 +59,16 @@ if (!$app->isAuth()) {
 
     <nav class="nav-chat">
         <ul>
+            <li>
+                <button type="button" id="enabledSong">🔇</button>
+                <button type="button">🔉</button>
+
+            </li>
             <li style="margin-bottom: 0.5rem;">
-            ♻ <a href="./chat.php" title="refresh">Refresh page</a>
+            ♻ <a href="./chat.php" title="Refresh">Refresh page</a>
             </li>
             <li>
-            ⛔ <a href="/controller.php?logout" title="disconnect">Deconnexion</a>
+            ⛔ <a href="/controller.php?logout" title="Disconnect">Deconnexion</a>
             </li>
         </ul>
     </nav>
@@ -72,8 +79,6 @@ if (!$app->isAuth()) {
     <!-- <p><span class="success"><= $_SESSION['auth']->username ?>✅</span></p> -->
 
     <!-- <h1>Bienvenue dans le chat !</h1> -->
-
-
 
     <div class="content__chat">
 

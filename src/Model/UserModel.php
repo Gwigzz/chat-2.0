@@ -10,6 +10,40 @@ class UserModel extends Database
     private string $tableUser = "user";
 
 
+    public function userOnline(int $idUser){
+        $request = $this->getPDO()->prepare(
+            "UPDATE {$this->tableUser} SET connected = true
+            WHERE id = :idUser"
+        );
+        $request->bindValue(':idUser', $idUser, \PDO::PARAM_INT);
+        if($request->execute()){
+            return true;
+        }
+        return false;
+    }
+
+    public function userOffline(int $idUser){
+        $request = $this->getPDO()->prepare(
+            "UPDATE {$this->tableUser} SET connected = NULL
+            WHERE id = :idUser"
+        );
+        $request->bindValue(':idUser', $idUser, \PDO::PARAM_INT);
+        if($request->execute()){
+            return true;
+        }
+        return false;
+
+    }
+    
+    public function checkUsersOnline(){
+        $request = $this->getPDO()->query(
+            "SELECT id, username, connected
+            FROM {$this->tableUser}
+            WHERE connected = '1'"
+        )->fetchAll(\PDO::FETCH_OBJ);
+        return $request;
+    }
+
     /**
      * Add a user into Database
      */

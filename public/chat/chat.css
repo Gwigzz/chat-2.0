@@ -1,9 +1,13 @@
-
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
 .nav-chat ul{
     padding: 0.2rem;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content:flex-start;
+    gap: 1rem;
+    /* align-items: center; */
     list-style: none;
 }
 .nav-chat ul li a {
@@ -24,6 +28,7 @@
 }
 .details-all-users summary{
     cursor: pointer;
+    margin-bottom: 1.4rem;
 }
 #getAllUsers{
     max-height: 80px;
