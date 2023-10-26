@@ -3,16 +3,18 @@ $(document).ready(function () {
     //***************************************************************
     //           ______ BUG / PROBLEM ______
     //      1: si on envoie trop de message le compteur total de message affiche pas le nombre total
-
-    //      * Faire en sorte de mettre un timer après envoie de message (éviter les spams et bug)
+    //
     //      * Mettre une limitation de text
     //      * Pouvoir permettre à l'utilisateur de supprimer ses messages
     //***************************************************************
 
 
     const timerRefreshMessage                       = 4500; // ms
+    
     const intervalAntiSpam                          = 1000; // ms
-    let currentAntiSpan                             = 3;    // s
+    let currentAntiSpam                             = 3;    // s
+    const enabledAntiSpam                           = false;
+
     const controllerName                            = "/controller.php";
     var currentMessages, lastIdMessage              = "";
 
@@ -50,19 +52,19 @@ $(document).ready(function () {
     const activeAntiSpam = () => {
         const intervalTimerAntiSpam = setInterval(function () {
 
-            $('#uiTimer').text(`${currentAntiSpan}`);
+            $('#uiTimer').text(`${currentAntiSpam}`);
 
             // anti spam
-            if (currentAntiSpan > 0) {
+            if (currentAntiSpam > 0) {
 
                 addClassAntiSpam();
-                currentAntiSpan--;
+                currentAntiSpam--;
 
                 // reset
             } else {
                 clearInterval(intervalTimerAntiSpam);
                 // reset
-                currentAntiSpan = 3;
+                currentAntiSpam = 3;
 
                 removeClassAntiSpam();
                 $('#messageContent').focus();
@@ -162,8 +164,11 @@ $(document).ready(function () {
 
             playAudioAlert('alert-send-msg');
 
-            addClassAntiSpam();
-            activeAntiSpam();
+            if(!!enabledAntiSpam){
+                addClassAntiSpam();
+                activeAntiSpam();
+            }
+           
 
         }
     }

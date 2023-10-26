@@ -55,13 +55,13 @@ if (!$app->isAuth()) {
 
 
 
-    <nav>
+    <nav class="nav-chat">
         <ul>
             <li style="margin-bottom: 0.5rem;">
-                <a href="./chat.php" title="refresh">♻rafraichir la page</a>
+            ♻ <a href="./chat.php" title="refresh">Refresh page</a>
             </li>
             <li>
-                <a href="/controller.php?logout" title="disconnect">⛔Deconnexion</a>
+            ⛔ <a href="/controller.php?logout" title="disconnect">Deconnexion</a>
             </li>
         </ul>
     </nav>

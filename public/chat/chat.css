@@ -1,4 +1,18 @@
 
+.nav-chat ul{
+    padding: 0.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+}
+.nav-chat ul li a {
+    text-decoration: none;
+    color: #0c91ff;
+}
+.nav-chat ul li a:hover{
+    text-decoration: underline;
+}
 .content__chat{
     margin: 0 auto;
     max-width: 50rem;
