@@ -11,6 +11,15 @@
     width: 100%;
     padding: 0.4rem 0.2rem;
     margin-bottom: 0.6rem;
+    border-radius: 3px;
+    border: 1px solid #595959;
+    transition: ease-out .4s;
+    
+}
+#username:focus, #password:focus{
+    outline: none;
+    border: 1px solid #0077ff;
+    transition: ease-out .4s;
 }
 
 label[for="username"], label[for="password"]{

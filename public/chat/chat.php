@@ -11,9 +11,6 @@ if (!$app->isAuth()) {
     return $app->alert('Connexion required', 'warning')->redirect('/index.php');
 }
 
-// var_dump($userModel->checkUsersOnline());
-
-// var_dump($chatModel->getLastMessagesAfterDate('16:24:56 24/10/2023'));
 // var_dump($chatModel->deleteAllMessage(true));
 
 // Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur explicabo unde obcaecati, at dolorum distinctio et dicta quae vel tempora architecto similique officia quam laborum hic officiis voluptates impedit eos?

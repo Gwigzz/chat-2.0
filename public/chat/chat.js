@@ -14,7 +14,7 @@ $(document).ready(function () {
 
     const intervalAntiSpam          = 1000; // ms
     let currentAntiSpam             = 3;    // s
-    const enabledAntiSpam           = false;
+    const enabledAntiSpam           = true;
     
     const intervalRefrashAllUsers   = 15000; // ms
 
